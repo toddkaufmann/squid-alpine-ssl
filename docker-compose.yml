@@ -1,7 +1,8 @@
 version: "3"
 services:
   squid-alpine-ssl:
-    image: alatas/squid-alpine-ssl:latest
+    image: tk/squid-alpine-ssl-aarm64:v20220621
+    # original, but isn't arm:  alatas/squid-alpine-ssl:latest
     environment:
       - CN=squid.local
       - O=squid
@@ -13,6 +14,8 @@ services:
     volumes:
       - ./log:/var/log/
       - ./conf/squid.conf:/etc/squid/squid.conf
+      - ./:/ROOT
+      # in squid.conf , refer to /ROOT/conf/hosts
       - ./cache:/var/cache
       - ./cert:/etc/squid-cert
     restart: always

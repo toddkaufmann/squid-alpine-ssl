@@ -51,7 +51,8 @@ run() {
 	echo "Starting squid..."
 	prepare_folders
 	create_cert
-	clear_certs_db
+	# ssl_crtd DNE
+	# clear_certs_db
 	initialize_cache
 	exec "$SQUID" -NYCd 1 -f /etc/squid/squid.conf
 }
