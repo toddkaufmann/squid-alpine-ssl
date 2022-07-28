@@ -17,8 +17,11 @@ prepare_folders() {
 
 initialize_cache() {
 	echo "Creating cache folder..."
-	"$SQUID" -z
-
+	if "$SQUID" -z; then
+	    echo ' ... success'
+	else
+	    echo "  ... FAIL to create cache, $?"
+	fi
 	sleep 5
 }
 
@@ -54,7 +57,20 @@ run() {
 	# ssl_crtd DNE
 	# clear_certs_db
 	initialize_cache
-	exec "$SQUID" -NYCd 1 -f /etc/squid/squid.conf
+	# exec "$SQUID" -NYCd 1 -f /etc/squid/squid.conf
+	for tries in 1 1 20 30 40 5; do 
+	    if "$SQUID" -NYCd 1 -f /etc/squid/squid.conf; then
+		echo ============================================
+		echo "Normal exit  ?"
+		sleep $tries
+	    else
+		sq_st=$?
+		echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		echo "ABNORMAL exit - status $sq_st, try again in a bit"
+		sleep $(echo "$tries * 10" | bc)
+	    fi
+	    echo One more time ...
+	done
 }
 
 run
