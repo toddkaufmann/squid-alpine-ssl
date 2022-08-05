@@ -1,7 +1,7 @@
 version: "3"
 services:
   squid-alpine-ssl:
-    image: tk/squid-alpine-ssl:v20220727
+    image: toddkaufmann/squid-alpine-ssl:v20220727
     # docker   build  -t tk/squid-alpine-ssl:v20220727 .
     # 
     # original, but isn't arm:  alatas/squid-alpine-ssl:latest
